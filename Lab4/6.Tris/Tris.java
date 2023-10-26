@@ -26,7 +26,7 @@ public class Tris {
 
     public void mossa(int x, int y) throws IllegalArgumentException {
         //MODIFIES: this
-        //EFFECTS: inserisce il carattere del giocatore di turno alle coordinate specificate, tiene conto del numerio di mosse effettuate e cambia turno di gioco
+        //EFFECTS: inserisce il carattere del giocatore di turno alle coordinate specificate, tiene conto del numerio di mosse effettuate
         //          se la posizione è occupata lancia IllegalArgumentException
         //          se x o y non rientrano nel range [1-3] lancia IllegalArgumentException
 
@@ -39,7 +39,6 @@ public class Tris {
         
         this.tabellone[x-1][y-1] = this.turno;
         this.numMosse++;
-        cambiaTurno();
     }
 
     public void cambiaTurno() {
@@ -77,21 +76,22 @@ public class Tris {
             
         }
 
-        int i = 0;
-        int j = 0;
-            if (this.tabellone[i][j] == this.tabellone[i][j+1] && this.tabellone[i][j] == this.tabellone[i][j+2]) {
-                if (this.tabellone[i][j] == this.turno) {
+        for (int i = 0; i < tabellone.length; i++) {
+            if (this.tabellone[i][1] == this.tabellone[i][0] && this.tabellone[i][0] == this.tabellone[i][2]) {
+                if (this.tabellone[i][0] == this.turno) {
                     return true;
                 }
             
             }
 
-            if (this.tabellone[j][i] == this.tabellone[j+1][i] && this.tabellone[j][i] == this.tabellone[j+2][i]) {
-                if (this.tabellone[0][0] == this.turno) {
+            if (this.tabellone[0][i] == this.tabellone[1][i] && this.tabellone[0][i] == this.tabellone[2][i]) {
+                if (this.tabellone[0][i] == this.turno) {
                     return true;
                 }
             
             }
+        }
+            
         return false;
     }
 
@@ -135,6 +135,7 @@ public class Tris {
                 System.out.println("Ha vinto " + nuovo.turno);
                 System.exit(1);
             }
+            nuovo.cambiaTurno();
 
         } 
         System.out.println("Partita terminata in pareggio");
