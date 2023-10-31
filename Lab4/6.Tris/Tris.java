@@ -121,10 +121,10 @@ public class Tris {
 
     public static void main(String[] args) {
         Tris nuovo = new Tris();
-            
         Scanner s = new Scanner(System.in);
+        String fine = "";
 
-        while (!nuovo.terminato()) {
+        while ((!nuovo.terminato()) || (fine == "n")) {
             System.out.println("Mossa di " + nuovo.turno);
             System.out.println("Inserisci: x y");
             nuovo.mossa(s.nextInt(), s.nextInt());
@@ -133,12 +133,14 @@ public class Tris {
 
             if (nuovo.vittoria()) {
                 System.out.println("Ha vinto " + nuovo.turno);
-                System.exit(1);
+                System.out.println("Un'altra partita? (s per si / n per no)");
+                fine = s.next();
+                nuovo = new Tris(); 
+                break;
             }
             nuovo.cambiaTurno();
-
         } 
+        if (fine != "n")
         System.out.println("Partita terminata in pareggio");
-
     }
 }
