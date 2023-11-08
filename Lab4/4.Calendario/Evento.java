@@ -73,7 +73,7 @@ public class Evento implements Cloneable{
 
     @Override
     public String toString() {
-        return "Evento: " + this.nome + " in data: " + this.data;
+        return "Evento: " + this.nome + " in data: " + this.data.getDate() + "/" + this.data.getMonth() + "/" + (this.data.getYear()+1900);
     }
 
     @Override

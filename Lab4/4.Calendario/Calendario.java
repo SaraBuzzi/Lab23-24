@@ -1,5 +1,6 @@
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.DuplicateFormatFlagsException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -13,6 +14,12 @@ public class Calendario {
     public Calendario(Evento e) {
         // MODIFIES: this
         // EFFECTS: aggiunge a this l'elemento e
+        eventi = new ArrayList<Evento>();
+    }
+
+    public Calendario() {
+        // MODIFIES: this
+        // EFFECTS: inizializza this senza elementi
         eventi = new ArrayList<Evento>();
     }
 
@@ -57,7 +64,7 @@ public class Calendario {
         }
     }
 
-    public void copiaEvento(Evento e, int n) throws NullPointerException, NullPointerException {
+    public void copiaEvento(Evento e, int n) throws NullPointerException {
         // MODIFIES: this
         // EFFECTS: aggiunge a this l'evento e ma modificandone la data a n giorni di
         // distanza
@@ -76,7 +83,6 @@ public class Calendario {
 
     }
 
-
     @Override
     public String toString() {
         String ret = "Calendario: (\n";
@@ -84,10 +90,11 @@ public class Calendario {
             ret += "\t\t" + evento.toString() + "\n";
         }
 
-        return ret+")";
+        return ret + ")";
     }
 
     public static void main(String[] args) {
+        Calendario calendario = new Calendario();
         System.out.println("Inserisci +/-/* NomeEvento gg/mm/aaaa [offset] (termina con CTRL+D)");
 
         Scanner s = new Scanner(System.in);
@@ -96,13 +103,33 @@ public class Calendario {
             String[] elem = s.nextLine().split(" ");
             String nome = elem[1];
             String[] campiData = elem[2].split("/");
-            Date data = new Date(0, 0, 0)
+            Date data = new Date(Integer.parseInt(campiData[2]) - 1900,
+                    Integer.parseInt(campiData[1]),
+                    Integer.parseInt(campiData[0]));
 
+            try {
+                switch (elem[0]) {
+                    case "+":
+                        calendario.addEvento(new Evento(data, nome));
+                        break;
+                    case "-":
+                        calendario.deleteEvento(data, nome);
+                        break;
+                    case "*":
+                        calendario.copiaEvento(new Evento(data, nome), Integer.parseInt(elem[3]));
+                        break;
+                    default:
+                        System.out.println("Input non valido");
+                }
+            } catch (NullPointerException | IllegalArgumentException | EventoDuplicatoException
+                    | NoSuchElementException f) {
+                System.out.println(f.getMessage());
+            }
 
         }
 
-    }
+        System.out.println(calendario);
 
-    
+    }
 
 }
