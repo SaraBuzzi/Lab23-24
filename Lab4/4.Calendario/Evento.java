@@ -1,7 +1,6 @@
 
 
 import java.util.Date;
-import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 
@@ -74,7 +73,7 @@ public class Evento implements Cloneable{
 
     @Override
     public String toString() {
-        return this.data + " " + this.nome;
+        return "Evento: " + this.nome + " in data: " + this.data;
     }
 
     @Override
