@@ -14,14 +14,26 @@ public class Primi implements Iterator<Integer>{
 
     @Override
     public Integer next() {
-        for (int i = 2; i < curr; i++) {
-            if (curr%i == 0) {
-                ;
+        while (!primo(this.curr)) {
+            this.curr++;
+        }
+
+        return this.curr++;
+    }
+
+
+    public static boolean primo(int n) {
+        // EFFECTS: ritorna true n è primo.
+        // Nota: il primo numero primo è 2
+
+        if (n < 2)
+            return false;
+        for (int i = 2; i < n; i++) {
+            if (n%i == 0) {
+                return false;
             }
         }
-        prev = curr;
-        curr++;
-        return prev;
+        return true;
     }
 
     public static void main(String[] args) {
