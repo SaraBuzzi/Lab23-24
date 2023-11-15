@@ -6,7 +6,7 @@ public class Segmento2D {
     //          classe immutabile
     
     //attributi
-    private final Punto2D a,b; //non sono tipi primitivi! 
+    public final Punto2D a,b; //non sono tipi primitivi! 
 
     //costruttore
     public Segmento2D(Punto2D a, Punto2D b) throws IllegalArgumentException, NullPointerException{
@@ -33,6 +33,7 @@ public class Segmento2D {
     }
 
 
+
     //metodi
     public Punto2D getA() {
         return a;
@@ -43,7 +44,7 @@ public class Segmento2D {
     }
 
 
-    public Double lenght() {
+    public double lenght() {
         //EFFECTS: restituisce la lunghezza di this
         return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
     }
@@ -51,31 +52,7 @@ public class Segmento2D {
 
     @Override
     public String toString() {
-        return "Segmento2D: [a: " + a + ", b: " + b + "]";
-    }
-
-    public static void main(String[] args) {
-
-        double lenmin = Double.parseDouble(args[0]);
-
-        ArrayList<Segmento2D> sup = new ArrayList<>();
-
-        System.out.println("Inserisci i segmenti nel formato ax ay bx by (temina con CTRL+D)");
-        Scanner s = new Scanner(System.in);
-        while (s.hasNextLine()) {
-            String[] el = s.nextLine().split(" ");
-            Segmento2D seg = new Segmento2D(new Punto2D(Double.parseDouble(el[0]), Double.parseDouble(el[1])), new Punto2D(Double.parseDouble(el[2]), Double.parseDouble(el[3])));
-
-            if (seg.lenght() > lenmin) {
-                sup.add(seg);
-            }
-        }
-
-        System.out.println("Segmenti di lunghezza superiore a " + lenmin);
-        for (Segmento2D segmento : sup) {
-            System.out.println(segmento);
-            System.out.println("Lunghezza: " + segmento.lenght());
-        }
+        return "Segmento:" + a + b;
     }
    
 

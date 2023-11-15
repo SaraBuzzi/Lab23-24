@@ -1,15 +1,11 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Segmento2D {
-    //OVERVIEW: modella un segmento in 2D
-    //          classe immutabile
+public class Segmento3D implements Segmento{
     
-    //attributi
-    private final Punto2D a,b; //non sono tipi primitivi! 
+    private final Punto3D a,b;
 
-    //costruttore
-    public Segmento2D(Punto2D a, Punto2D b) throws IllegalArgumentException, NullPointerException{
+    public Segmento3D(Punto3D a, Punto3D b) throws IllegalArgumentException, NullPointerException {
         //MODIFIES: this
         //EFFECTS: inizializza un segmento con il punto a e il punto b
         //lancia NullPointerException se a == null o b == null
@@ -32,39 +28,45 @@ public class Segmento2D {
         this.b = b;
     }
 
+    
 
-    //metodi
-    public Punto2D getA() {
+    
+    public Punto3D getA() {
         return a;
     }
 
-    public Punto2D getB() {
+
+    public Punto3D getB() {
         return b;
     }
 
 
-    public Double lenght() {
+    public double lenght() {
         //EFFECTS: restituisce la lunghezza di this
-        return Math.sqrt(Math.pow(a.x - b.x, 2) + Math.pow(a.y - b.y, 2));
+        return Math.sqrt(
+            Math.pow(this.a.p.x - this.b.p.x, 2) + 
+            Math.pow(this.a.p.y - this.b.p.y, 2) +
+            Math.pow(this.a.z - this.b.z, 2)
+        );
     }
-
 
     @Override
     public String toString() {
-        return "Segmento2D: [a: " + a + ", b: " + b + "]";
+        return "Segmento - a: " + a + ", b: " + b;
     }
 
     public static void main(String[] args) {
 
         double lenmin = Double.parseDouble(args[0]);
 
-        ArrayList<Segmento2D> sup = new ArrayList<>();
+        ArrayList<Segmento3D> sup = new ArrayList<>();
 
-        System.out.println("Inserisci i segmenti nel formato ax ay bx by (temina con CTRL+D)");
+        System.out.println("Inserisci i segmenti nel formato ax ay bx by az bz(temina con CTRL+D)");
         Scanner s = new Scanner(System.in);
         while (s.hasNextLine()) {
             String[] el = s.nextLine().split(" ");
-            Segmento2D seg = new Segmento2D(new Punto2D(Double.parseDouble(el[0]), Double.parseDouble(el[1])), new Punto2D(Double.parseDouble(el[2]), Double.parseDouble(el[3])));
+            Segmento3D seg = new Segmento3D(new Punto3D(Double.parseDouble(el[0]), Double.parseDouble(el[1]), Double.parseDouble(el[2])), 
+                                            new Punto3D(Double.parseDouble(el[3]), Double.parseDouble(el[4]), Double.parseDouble(el[5])));
 
             if (seg.lenght() > lenmin) {
                 sup.add(seg);
@@ -72,12 +74,9 @@ public class Segmento2D {
         }
 
         System.out.println("Segmenti di lunghezza superiore a " + lenmin);
-        for (Segmento2D segmento : sup) {
+        for (Segmento3D segmento : sup) {
             System.out.println(segmento);
             System.out.println("Lunghezza: " + segmento.lenght());
         }
     }
-   
-
-    
 }

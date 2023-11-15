@@ -136,6 +136,27 @@ public class Contatto implements Iterable<String>{
     }
 
 
+    @Override
+    public Iterator<String> iterator() {
+        return new Iterator<String>() {
+
+            Iterator<String> i = telefoni.iterator();
+
+            @Override
+            public boolean hasNext() {
+                return i.hasNext();            }
+
+            @Override
+            public String next() {
+                return i.next();
+            }
+
+            //Niente remove
+            
+        }
+    }
+
+
     
 
 

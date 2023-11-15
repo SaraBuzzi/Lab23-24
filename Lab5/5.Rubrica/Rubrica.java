@@ -68,7 +68,14 @@ public class Rubrica implements Iterable<Contatto> {
     }
 
     public static void main(String[] args) {
+        Contatto c = new Contatto("null", "null");
 
+        for (String telefono : c) {
+            
+        }
+        
+
+    
     }
 
     
