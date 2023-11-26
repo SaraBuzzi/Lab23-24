@@ -1,4 +1,4 @@
-public class UnoOgniNGratis extends PoliticaSconto {
+public class UnoOgniNGratis extends ScontoSemplice {
     //OVERVIEW: classe che modella una politica di sconto tale che ogni n-esimo articolo sia gratuito
     //          classe che estende PoliticaSconto
 
@@ -16,6 +16,8 @@ public class UnoOgniNGratis extends PoliticaSconto {
             throw new IllegalArgumentException("Inserire un valore positivo");
 
        this.n = n;
+
+       assert repOk();
     }
 
     //methods
@@ -23,10 +25,20 @@ public class UnoOgniNGratis extends PoliticaSconto {
     public double calcolaSconto() {
         //EFFECTS: restituisce uno sconto totale ogni n-esimo articolo acquistato
 
-        if (numeroArticoli/n == 1) {
-            return 
-        }
-        return 0;
+        return (numeroArticoli / n) * prezzoArticolo;
+    }
+
+    @Override
+    public boolean repOk() {
+
+        if (n<=0)
+            return false;
+        return super.repOk();
+    }
+
+    @Override
+    public String toString() {
+        return "Sconto di " + this.calcolaSconto() + ". Uno ogni " + this.n + " gratis";
     }
     
 }

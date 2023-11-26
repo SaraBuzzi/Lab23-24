@@ -1,4 +1,4 @@
-public class ScontoQuantita extends PoliticaSconto {
+public class ScontoQuantita extends ScontoSemplice {
     // OVERVIEW: classe che calcolo lo sconto in base alla quantità di articoli
     // acquistati
     // estende PoliticaSconto
@@ -22,6 +22,8 @@ public class ScontoQuantita extends PoliticaSconto {
         this.minimo = minimo;
         this.percentuale = percentuale;
 
+        assert repOk();
+
     }
 
     //methods
@@ -36,4 +38,15 @@ public class ScontoQuantita extends PoliticaSconto {
         return 0;
     }
 
+    public boolean repOk() {
+
+        if (minimo < 0 || percentuale < 0)
+            return false;
+        return super.repOk();
+    }
+
+    @Override
+    public String toString() {
+        return "Sconto di " + this.calcolaSconto() + " calcolato su " + this.numeroArticoli + "articoli";
+    }
 }
