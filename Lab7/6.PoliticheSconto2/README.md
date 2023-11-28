@@ -1,3 +1,4 @@
+cls
 # PoliticheSconto2
 
 Modificare l'esercizio `7.PoliticheSconto` del `Laboratorio6` come segue:
