@@ -43,6 +43,10 @@ public class Cilindro extends Contenitore{
         return super.repOk();
     }
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        
 
+    }
     
 }

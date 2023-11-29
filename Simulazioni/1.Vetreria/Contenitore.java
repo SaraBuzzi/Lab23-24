@@ -1,6 +1,6 @@
 
 
-public class Contenitore implements Comparable<Contenitore> {
+public class Contenitore implements Comparable<Contenitore>, Cloneable {
     // OVERVIEW: classe che modella oggetti che possono contenere una certa quantità
     // di liquido, fino ad un massimo pari al proprio volume
 
@@ -8,7 +8,6 @@ public class Contenitore implements Comparable<Contenitore> {
     double capienza;
     double liquido;
     final String tipoLiquido;
-    boolean pieno; // true se il contenitore è pieno, false altrimenti
 
     // constructor
     public Contenitore (double capienza, double liquido, String tipoLiquido) throws IllegalArgumentException, ExceededCapacityException{
@@ -25,10 +24,10 @@ public class Contenitore implements Comparable<Contenitore> {
             throw new IllegalArgumentException("tipoLiquido == null");
         if (liquido > capienza) 
             throw new ExceededCapacityException("il liquido inserito supera la capienza massima del contenitore");
-
+        this.capienza = capienza;
         this.liquido = liquido;
         this.tipoLiquido = tipoLiquido;
-        this.pieno = false;
+    
 
         assert repOk();
 
@@ -54,13 +53,6 @@ public class Contenitore implements Comparable<Contenitore> {
         return tipoLiquido;
     }
 
-    public boolean isPieno() {
-        return pieno;
-    }
-
-    public void setPieno(boolean pieno) {
-        this.pieno = pieno;
-    }
 
 
     public void addLiquido(double liquido) throws ExceededCapacityException {
@@ -84,14 +76,10 @@ public class Contenitore implements Comparable<Contenitore> {
         //il contenitore di destinazione ha sufficiente capienza rimanente
         try {
             this.addLiquido(c.liquido);
-            if (this.liquido == this.capienza) {
-                this.setPieno(true); // il contenitore this è pieno
-            }
-
+            c.setLiquido(0);
         } catch (ExceededCapacityException e) {
             try {
                 this.setLiquido(this.capienza);
-                this.setPieno(true);
                 c.setLiquido(liquidoDueContenitori-this.capienza);
             } catch (ExceededCapacityException f) {
                 //impossibile
@@ -104,7 +92,7 @@ public class Contenitore implements Comparable<Contenitore> {
 
     @Override
     public int compareTo(Contenitore o) {
-        return Double.compare(this.capienza, o.capienza); //ordine decrescente??
+        return Double.compare(o.capienza, this.capienza); //ordine decrescente
     }
 
     @Override
@@ -124,4 +112,5 @@ public class Contenitore implements Comparable<Contenitore> {
 
         return true;
     }
+
 }

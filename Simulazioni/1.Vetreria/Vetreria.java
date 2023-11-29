@@ -67,10 +67,11 @@ public class Vetreria implements Iterable<Contenitore> {
         //EFFECTS: metodo che riempie fino al massimo i contenitori più capienti svuotando, se possibile, alcuni tra quelli meno capienti
         //         i contenitori devono avere UGUALE liquido
 
+    
         this.ordina();
         for (int i = vetreria.size()-1; i >= 0; i-- ) {
             for (int j = i-1; j >= 0; j--) {
-                vetreria.get(i).versa(vetreria.get(j));
+                vetreria.get(j).versa(vetreria.get(i));
             }
         }
 
@@ -153,6 +154,7 @@ public class Vetreria implements Iterable<Contenitore> {
         }
 
         System.out.println(vetreria);
+        
         Vetreria vetreriaAlcool = vetreria.vetreriaDiTipo("alcool");
         vetreriaAlcool.ottimizza();
         System.out.println(vetreriaAlcool);
