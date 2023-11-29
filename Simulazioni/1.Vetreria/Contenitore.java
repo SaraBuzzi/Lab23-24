@@ -87,6 +87,9 @@ public class Contenitore implements Comparable<Contenitore>, Cloneable {
             
         }
 
+        assert repOk();
+        assert c.repOk();
+
     }
 
 
@@ -111,6 +114,11 @@ public class Contenitore implements Comparable<Contenitore>, Cloneable {
             return false;
 
         return true;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 
 }

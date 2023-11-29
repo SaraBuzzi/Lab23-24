@@ -49,7 +49,12 @@ public class Cuboide extends Contenitore {
     
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        // TODO Auto-generated method stub
-        return super.clone();
+        Cuboide s = null;
+        try {
+            s = new Cuboide(getLiquido(), getTipoLiquido(), a, b, c);
+        } catch (ExceededCapacityException e) {
+            // Impossibile
+        }
+        return s;
     }
 }

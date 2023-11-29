@@ -40,8 +40,13 @@ public class Sfera extends Contenitore{
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        // TODO Auto-generated method stub
-        return super.clone();
+        Sfera s = null;
+        try {
+            s = new Sfera(getLiquido(), getTipoLiquido(), raggio);
+        } catch (ExceededCapacityException e) {
+            // Impossibile
+        }
+        return s;
     }
     
 }

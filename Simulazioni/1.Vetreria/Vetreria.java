@@ -21,7 +21,12 @@ public class Vetreria implements Iterable<Contenitore> {
             throw new IllegalArgumentException("contenitore == null");
 
         if (!(vetreria.contains(c))) {
-            vetreria.add(c);
+            try {
+                vetreria.add((Contenitore) c.clone());
+            } catch (CloneNotSupportedException e) {
+                //impossibile
+            }
+            
         }
 
         assert repOk();

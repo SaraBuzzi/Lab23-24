@@ -45,7 +45,13 @@ public class Cilindro extends Contenitore{
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        
+        Cilindro c = null;
+        try {
+            c = new Cilindro(getLiquido(), getTipoLiquido(), raggio, altezza);
+        } catch (ExceededCapacityException e) {
+            // Impossibile
+        }
+        return c;
 
     }
     
