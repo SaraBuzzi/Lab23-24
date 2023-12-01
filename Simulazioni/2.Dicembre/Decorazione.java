@@ -38,7 +38,12 @@ public class Decorazione implements Cloneable{
 
     @Override
     protected Decorazione clone() {
-        Decorazione d = new Decorazione(nome, peso);
+        Decorazione d;
+        try {
+            d = (Decorazione) super.clone();
+        } catch (CloneNotSupportedException e) {
+           d = new Decorazione(nome, peso);
+        }
         return d;
     }
 
