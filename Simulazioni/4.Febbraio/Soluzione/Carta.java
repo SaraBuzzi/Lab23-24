@@ -9,7 +9,7 @@ public class Carta implements Comparable<Carta> {
 	final char seme;
 
 //costruttori
-	public Carta(int valore, char seme) throws IllegalArgumentException {
+	public Carta(int valore, int seme2) throws IllegalArgumentException {
 	//MODIFIES: this
 	//EFFECTS: inizializza nuova Carta con valore e seme.
 	//         se valore < 1 o > 13 lancia IllegalArgumentException
@@ -17,10 +17,10 @@ public class Carta implements Comparable<Carta> {
 		if(valore < 1 || valore > 13)
 			throw new IllegalArgumentException("Carta - Costruttore con valore errato");
 		
-		if(!(Arrays.asList('C','Q','F','P').contains(seme)))
+		if(!(Arrays.asList('C','Q','F','P').contains(seme2)))
 			throw new IllegalArgumentException("Carta - Costruttore con seme errato");
 
-		this.seme = seme;
+		this.seme = seme2;
 		this.valore = valore;
 	}
 
@@ -66,4 +66,8 @@ public class Carta implements Comparable<Carta> {
 
 		return tmp.seme == this.seme && tmp.valore == this.valore;
 	}
+
+    public boolean getNum() {
+        return false;
+    }
 }
