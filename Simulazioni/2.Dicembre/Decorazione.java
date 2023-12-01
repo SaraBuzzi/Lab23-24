@@ -1,9 +1,9 @@
-public class Decorazione {
+public class Decorazione implements Cloneable{
     //OVERVIEW: classe che modella oggeti che rappresentano decorazioni natalizie
 
     //attributes
-    public final String nome;
-    public final double peso;
+    private final String nome;
+    private final double peso;
 
     //constructor
     public Decorazione(String nome, double peso) throws IllegalArgumentException{
@@ -23,6 +23,13 @@ public class Decorazione {
     }
 
     //methods
+    public String getNome() {
+        return this.nome;
+    }
+
+    public double getPeso() {
+        return this.peso;
+    }
 
     @Override
     public String toString() {

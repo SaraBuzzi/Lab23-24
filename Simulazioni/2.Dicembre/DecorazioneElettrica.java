@@ -1,10 +1,10 @@
-import javax.swing.DefaultDesktopManager;
+
 
 public class DecorazioneElettrica extends Decorazione implements Comparable<DecorazioneElettrica>{
     //OVERVIEW: classe che modella decorazioni elettriche
     //          classe che estende Decorazione
     //attributes
-    double potenza;
+    final double potenza;
     boolean interuttore;
 
     //constructor
@@ -21,7 +21,6 @@ public class DecorazioneElettrica extends Decorazione implements Comparable<Deco
         this.potenza = potenza;
         this.interuttore = false;
 
-        assert repOk();
     }
 
     //methods
@@ -29,13 +28,7 @@ public class DecorazioneElettrica extends Decorazione implements Comparable<Deco
         return potenza;
     }
 
-    public void setPotenza(double potenza) throws IllegalArgumentException{
 
-        if (potenza <= 0)
-            throw new IllegalArgumentException("potenza <= 0");
-
-        this.potenza = potenza;
-    }
 
     public boolean isInteruttore() {
         return interuttore;
@@ -55,22 +48,12 @@ public class DecorazioneElettrica extends Decorazione implements Comparable<Deco
     }
 
     
-    public boolean repOk() {
-        if (potenza <= 0)
-            return false;
-        return true;
-    }
 
     @Override
     public int compareTo(DecorazioneElettrica d) {
-        return Double.compare(d.potenza, this.potenza);
+        return Double.compare(this.potenza, d.getPotenza() ); //ordine crescente
     }
 
-    @Override
-    protected DecorazioneElettrica clone() {
-        DecorazioneElettrica d = new DecorazioneElettrica(nome, peso, potenza);
-        return d ;
-    }
 
     
 }

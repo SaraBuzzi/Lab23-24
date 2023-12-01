@@ -1,18 +1,16 @@
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-
-public class AlberoNatalizio {
+public class AlberoNatalizio implements Iterable<Decorazione> {
     // OVERVIEW: classe che modella un albero natalizio, a cui è possibile
     // aggiungere decorazioni
 
     // attributes
     final double caricoMax;
     final double potenzaMax;
-    double caricoTot;
-    ArrayList<Decorazione> dec = new ArrayList<>();
-    boolean puntaleInserito; // true se la lista di decorazioni contiene un puntale, false altrimenti
+    ArrayList<Decorazione> listaDecorazioni = new ArrayList<>();
 
     // constructor
     public AlberoNatalizio(double caricoMax, double potenzaMax) {
@@ -28,12 +26,36 @@ public class AlberoNatalizio {
 
         this.caricoMax = caricoMax;
         this.potenzaMax = potenzaMax;
-        this.caricoTot = 0;
-        this.puntaleInserito = false;
+    
+
+        assert repOk();
 
     }
 
     // methods
+    public double getCaricoCorrente() {
+        // EFFECTS: ritorna la somma dei pesi delle decorazioni presenti sull'albero
+        double ret = 0;
+        for (Decorazione decorazione : listaDecorazioni) {
+            ret += decorazione.getPeso();
+        }
+        return ret;
+    }
+
+    public double getPotenzaCorrente() {
+        // EFFECTS: ritorna la somma delle potenze delle decorazioni accese presenti
+        // sull'albero
+        double ret = 0;
+        for (Decorazione decorazione : listaDecorazioni) {
+            if (decorazione instanceof DecorazioneElettrica) {
+                if (((DecorazioneElettrica) decorazione).isInteruttore()) {
+                    ret += ((DecorazioneElettrica) decorazione).getPotenza();
+                }
+            }
+        }
+        return ret;
+    }
+
     public void addDecorazione(Decorazione d) throws IllegalArgumentException, WeightReachedException {
         // MODIFIES: this
         // EFFECTS: aggiunge d a this
@@ -45,46 +67,121 @@ public class AlberoNatalizio {
 
         if (d == null)
             throw new IllegalArgumentException("decorazione == null");
-        if (caricoTot + d.peso > caricoMax)
+        if (this.getCaricoCorrente() + d.getPeso() > caricoMax)
             throw new WeightReachedException("non si può aggiungere: Carico superato");
-        if (d instanceof Puntale && this.puntaleInserito)
+        if (d instanceof Puntale && this.contaPuntali() > 0)
             throw new TopperExistsException("è già presente un altro puntale");
 
-        if (d instanceof Puntale)
-            this.puntaleInserito = true;
-        dec.add((Decorazione) d.clone());
-        caricoTot += d.peso;
+
+        listaDecorazioni.add((Decorazione) d.clone());
+
+        assert repOk();
 
     }
 
     public void remDecorazione(Decorazione d) {
-        //MODIFIES: this
-        //EFFECTS: rimuove d da this
+        // MODIFIES: this
+        // EFFECTS: rimuove d da this
         // lancia IllegalArgumentException se d == null
-        //lancia NoSuchElementException se d non è presente nella lista
+        // lancia NoSuchElementException se d non è presente nella lista
 
         if (d == null)
             throw new IllegalArgumentException("decorazione == null");
-        if (!(dec.contains(d)))
+        if (!(listaDecorazioni.contains(d)))
             throw new NoSuchElementException("decorazione not in the list");
 
-        if (d instanceof Puntale)
-            this.puntaleInserito = false;
-        dec.remove(d);
         
-    
+        listaDecorazioni.remove(d);
 
+        assert repOk();
+
+    }
+
+    public int contaPuntali() {
+        //EFFECTS: restituisce il numero di puntali presenti sull'albero
+        int count = 0;
+        for (Decorazione decorazione : listaDecorazioni) {
+            if (decorazione instanceof Puntale) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public void accendi() {
+        // MODIFIES: this
+        // EFFECTS: "accende" le decorazioni elettriche dell'albero (dalla meno
+        // richiedente alla più richiedente), rispettando la potenza massima permessa
+
+        ArrayList<DecorazioneElettrica> listaDecorazioniElett = new ArrayList<>();
+        for (Decorazione decorazione : listaDecorazioni) {
+            if (decorazione instanceof DecorazioneElettrica) {
+                listaDecorazioniElett.add((DecorazioneElettrica) decorazione);
+            }
+        }
+
+        listaDecorazioniElett.sort(null);
+        
+        double potenzaCorrente = 0;
+        for (DecorazioneElettrica decorazioneElettrica : listaDecorazioniElett) {
+            if (potenzaCorrente + decorazioneElettrica.getPotenza() <= this.potenzaMax) {
+                decorazioneElettrica.setInteruttore(true);
+                potenzaCorrente += decorazioneElettrica.getPotenza();
+            }     
+        }
+
+        assert repOk();
     }
 
     @Override
     public String toString() {
         String ret = "Albero (Carico: " + this.caricoMax + ", Potenza: " + this.potenzaMax + ")\n";
-        for (Decorazione decorazione : dec) {
+        for (Decorazione decorazione : listaDecorazioni) {
             ret += decorazione + "\n";
         }
         return ret;
     }
 
+    @Override
+    public Iterator<Decorazione> iterator() {
+        return new Iterator<Decorazione>() {
+
+            Iterator<Decorazione> i = listaDecorazioni.iterator();
+
+            @Override
+            public boolean hasNext() {
+                return i.hasNext();
+            }
+
+            @Override
+            public Decorazione next() {
+                return i.next();
+            }
+
+        };
+    }
+
+    public boolean repOk() {
+        if (listaDecorazioni == null)   
+            return false;
+        for (Decorazione decorazione : listaDecorazioni) {
+            if (decorazione == null)
+                return false;
+        }
+
+        if (this.getCaricoCorrente() > this.caricoMax) 
+            return false;
+        if (this.getPotenzaCorrente() > this.potenzaMax)
+            return false;
+
+        if (this.contaPuntali() > 1) 
+            return false;
+
+            
+        return true;
+
+        
+    }
 
     public static void main(String[] args) {
         AlberoNatalizio albero = new AlberoNatalizio(Double.parseDouble(args[0]), Double.parseDouble(args[1]));
@@ -102,12 +199,13 @@ public class AlberoNatalizio {
                         Puntale puntale = new Puntale(campi[1], Double.parseDouble(campi[2]));
                         albero.addDecorazione(puntale);
                         break;
-                    
+
                     case "DecorazioneElettrica":
-                        DecorazioneElettrica decElettrica = new DecorazioneElettrica(campi[1], Double.parseDouble(campi[2]), Double.parseDouble(campi[3]));
+                        DecorazioneElettrica decElettrica = new DecorazioneElettrica(campi[1],
+                                Double.parseDouble(campi[2]), Double.parseDouble(campi[3]));
                         albero.addDecorazione(decElettrica);
                         break;
-                
+
                 }
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 System.out.println("errore in input");

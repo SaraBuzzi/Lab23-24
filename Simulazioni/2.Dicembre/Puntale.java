@@ -16,8 +16,5 @@ public class Puntale extends Decorazione{
         return super.toString() + ", puntale";
     }
 
-    @Override
-    protected Puntale clone()  {
-        return new Puntale(nome, peso);
-    }
+
 }
