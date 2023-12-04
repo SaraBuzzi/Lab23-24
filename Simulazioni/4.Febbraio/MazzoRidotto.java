@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.NoSuchElementException;
 
 public class MazzoRidotto extends Mazzo {
     // OVERVIEW: classe che modella un mazzo ridotto di 40 carte (10 valori per i
@@ -61,7 +62,7 @@ public class MazzoRidotto extends Mazzo {
 
         if (c.getNum() < 1 || c.getNum() > 10 || c.getSemeNumero() < 1 || c.getSemeNumero() > 4)
             throw new CardNotValidException("card not valid");
-        if (!(mazzoRidotto.contains(c)))
+        if (!(this.mazzoRidotto.contains(c)))
             throw new CardExistsException("card already in the deck");
 
         assert repOk();
@@ -87,8 +88,9 @@ public class MazzoRidotto extends Mazzo {
                 return false;
         }
 
-
         return true;
     }
+
+
 
 }

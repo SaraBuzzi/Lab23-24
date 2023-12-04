@@ -32,8 +32,7 @@ public class Main {
 
                 case "inserisci":
                     int seme = 0;
-                    try {
-                        switch (elem[2]) {
+                    switch (elem[2]) {
                             case "C":
                                 seme = 1;
                                 break;
@@ -47,7 +46,8 @@ public class Main {
                                 seme = 4;
                                 break;
                         }
-                        
+
+                    try {
                         Carta carta = new Carta(Integer.parseInt(elem[1]), seme);
                         m.addCarta(carta);
                         System.out.println("Inserito: " + carta);

@@ -50,7 +50,7 @@ public class Mazzo implements Iterator<Carta>{
             throw new CardNotValidException("card number not valid");
         if (c.getSemeNumero() < 1 || c.getSemeNumero() > 4) 
             throw new CardNotValidException("card suits not valid");
-        if (!(mazzo.contains(c))) 
+        if (!(this.mazzo.contains(c))) 
             throw new CardExistsException("card already in the deck");
 
         assert repOk();
@@ -80,8 +80,11 @@ public class Mazzo implements Iterator<Carta>{
         return true;
     }
 
+    int curr = 0;
+
     @Override
     public boolean hasNext() {
+        curr++;
         return this.mazzo.size() > 0;
     }
 
@@ -90,7 +93,7 @@ public class Mazzo implements Iterator<Carta>{
         if (!(hasNext())) {
             throw new NoSuchElementException("there are no cards left in the deck");
         }
-        return this.mazzo.remove(0);
+        return this.mazzo.remove(curr);
     }
 
     
