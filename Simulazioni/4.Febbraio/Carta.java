@@ -23,12 +23,12 @@ public class Carta implements Comparable<Carta> {
     }
 
     //methods
-    public int getNum() {
-        return this.num;
-    }
-
     public int getSemeNumero() {
         return this.seme;
+    }
+
+    public int getNum() {
+        return this.num;
     }
 
     public String getSemeString() {

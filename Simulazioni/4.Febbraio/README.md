@@ -13,7 +13,6 @@ Un `Mazzo` appena creato contiene tutte le 52 carte possibili, ovvero 13 valori 
 * Riordinare il mazzo, mettendo le carte nel loro ordine naturale
 * Fornire le funzionalita' di un iteratore standalone di carte, ovvero:
 	* Verificare se vi sono ancora delle carte nel mazzo
-	* Estrarre e restituire una carta dal mazzo (togliendola dal mazzo)
 * Inserire una carta nel mazzo.
 	* Se la carta e' gia' presente nel mazzo viene restituita una nuova eccezione unchecked `CardExistsException`
 	* Se la carta non e valida per il mazzo viene restituita una nuova eccezione checked `CardNotValidException`

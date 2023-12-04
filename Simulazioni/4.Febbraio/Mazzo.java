@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class Mazzo {
+public class Mazzo implements Iterator<Carta>{
     //OVERVIEW: classe che modella un mazzo di 52 carte (13 valori per i quattro semi)
 
     //attributes
@@ -44,10 +46,14 @@ public class Mazzo {
         //lancia CardExistsException se c è già nel mazzo
         //lancia CardNotValidException se c non è valida
 
-        if (c.getNum() < 1 || c.getNum() > 13 || c.getSemeNumero() < 1 || c.getSemeNumero() > 4)
-            throw new CardNotValidException("card not valid");
+        if (c.getNum() < 1 || c.getNum() > 13)
+            throw new CardNotValidException("card number not valid");
+        if (c.getSemeNumero() < 1 || c.getSemeNumero() > 4) 
+            throw new CardNotValidException("card suits not valid");
         if (!(mazzo.contains(c))) 
             throw new CardExistsException("card already in the deck");
+
+        assert repOk();
 
     }
 
@@ -73,6 +79,22 @@ public class Mazzo {
 
         return true;
     }
+
+    @Override
+    public boolean hasNext() {
+        return this.mazzo.size() > 0;
+    }
+
+    @Override
+    public Carta next() throws NoSuchElementException {
+        if (!(hasNext())) {
+            throw new NoSuchElementException("there are no cards left in the deck");
+        }
+        return this.mazzo.remove(0);
+    }
+
+    
+    
 
 
 }
