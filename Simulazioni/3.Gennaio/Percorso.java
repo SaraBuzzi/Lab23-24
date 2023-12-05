@@ -9,20 +9,39 @@ public class Percorso implements Iterable<Tratta> {
     // attributes
     ArrayList<Tratta> percorso = new ArrayList<>();
 
+    // constructor
+    public Percorso() {
+        // EFFECTS: inizializza un percorso vuoto
+    }
+
+    public Percorso(Percorso p) throws TrattaNonValidaException {
+        // MODIFIES: this
+        // EFFECTS: inizializza this con tutte le tratte contenute in p
+        //
+
+        for (Tratta tratta : p) {
+            this.addTratta(tratta);
+        }
+    }
+
     // methods
     public void addTratta(Tratta t) throws TrattaNonValidaException {
         // MODIFIES: this
-        // EFFECTS: aggiunge la tratta t a this 
-        // lancia TrattaNonValidaException se il luogo d'origine di t != al luogo di destinazione dell'ultima tratta
+        // EFFECTS: aggiunge la tratta t a this
+        // lancia TrattaNonValidaException se il luogo d'origine di t != al luogo di
+        // destinazione dell'ultima tratta
 
-        if (!percorso.isEmpty() && !(percorso.get(percorso.size()-1).getDestinazione().equals(t.getOrigine()))) 
+        if (!percorso.isEmpty() && !(percorso.get(percorso.size() - 1).getDestinazione().equals(t.getOrigine())))
             throw new TrattaNonValidaException("tratta non continua il percorso");
-        
+
         percorso.add(t);
+
+        assert repOk();
+
     }
 
     public double durataTot() {
-        //EFFECTS: restituisce la durata totale delle tratte del percorso
+        // EFFECTS: restituisce la durata totale delle tratte del percorso
 
         double ret = 0;
         for (Tratta tratta : percorso) {
@@ -47,7 +66,7 @@ public class Percorso implements Iterable<Tratta> {
 
     @Override
     public Iterator<Tratta> iterator() {
-        
+
         return new Iterator<>() {
 
             Iterator<Tratta> i = percorso.iterator();
@@ -67,15 +86,24 @@ public class Percorso implements Iterable<Tratta> {
 
     @Override
     public String toString() {
-        String ret = "Percorso (durata: " + this.durataTot() + ", co2: " + this.inquinaTot() + ")";
+        String ret = "Percorso (durata: " + this.durataTot() + ", co2: " + this.inquinaTot() + ")\n";
 
         for (Tratta tratta : percorso) {
-            ret += "\n" + tratta;
+            ret += tratta + "\n" ;
         }
         return ret;
     }
 
-
-
+    public boolean repOk() {
+        if (percorso == null)
+            return false;
+        for (int i = 0; i < percorso.size(); i++) {
+            if (percorso.get(i) == null)
+                return false;
+            if (i != 0 && !(percorso.get(i - 1).getDestinazione().equals(percorso.get(i).getOrigine())))
+                return false;
+        }
+        return true;
+    }
 
 }

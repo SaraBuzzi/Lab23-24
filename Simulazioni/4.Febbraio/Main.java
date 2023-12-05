@@ -3,13 +3,14 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        Mazzo m = null;
+
+        MazzoRidotto m = null;
         switch (args[0]) {
             case "Mazzo":
-                m = new Mazzo();
+                 m = new Mazzo();
                 break;
             case "MazzoRidotto":
-                m = new MazzoRidotto();
+                 m = new MazzoRidotto();
                 break;
         }
 
