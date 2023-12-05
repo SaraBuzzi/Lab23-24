@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public class CompanyAds implements Iterable<AdCampaign> {
     // OVERVIEW: classe che implementa un'azienda e le sue campagne pubblicitarie
@@ -43,7 +42,7 @@ public class CompanyAds implements Iterable<AdCampaign> {
         assert repOk();
     }
 
-    public AdCampaign getCampaign(String nome) throws NoSuchElementException {
+    public AdCampaign getCampaign(String nome) {
         // EFFECTS: restituisce la campagna identificata dal nome passato
 
 
@@ -85,6 +84,15 @@ public class CompanyAds implements Iterable<AdCampaign> {
         }
 
         return true;
+    }
+
+    @Override
+    public String toString() {
+        String ret ="Campagne di " + nome + ":\n";
+        for (AdCampaign ad : ads) {
+            ret += ad + "\n";
+        }
+        return ret;
     }
 
 }

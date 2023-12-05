@@ -47,6 +47,8 @@ public abstract class AdCampaign implements Comparable<AdCampaign> {
     }
 
     public abstract Object clone();
+    
+    public abstract void aggiorna(double d1, double d2) throws IllegalArgumentException, CampaignClosedException ;
 
 
     @Override

@@ -76,6 +76,7 @@ public class AdCampaignWebRestyling extends AdCampaign {
         return tVisOld;
     }
 
+    @Override
     public void aggiorna(double nVisNew, double tVisNew) throws IllegalArgumentException, CampaignClosedException {
         // MODIFIES: this
         // EFFECTS: incrementa nVisNew e tVisNew con i parametri dati (se la campagna è

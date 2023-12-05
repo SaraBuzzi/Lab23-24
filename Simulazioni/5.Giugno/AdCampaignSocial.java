@@ -37,7 +37,7 @@ public class AdCampaignSocial extends AdCampaign {
         // lancia CampaignClosedException se la campagna è chiusa (quindi non permette
         // aggiornamenti)
 
-        if (this.isAperta())
+        if (!(this.isAperta()))
             throw new CampaignClosedException(nome + " campagna gia' chiusa");
         if (nVis <= 0)
             throw new IllegalArgumentException("num visualizzazioni <= 0");
@@ -52,7 +52,7 @@ public class AdCampaignSocial extends AdCampaign {
         // lancia CampaignClosedException se la campagna è chiusa (quindi non permette
         // aggiornamenti)
 
-        if (this.isAperta())
+        if (!(this.isAperta()))
             throw new CampaignClosedException(nome + " campagna gia' chiusa");
         if (nLike <= 0)
             throw new IllegalArgumentException("num like <= 0");
@@ -64,6 +64,7 @@ public class AdCampaignSocial extends AdCampaign {
         assert repOk();
     }
 
+    @Override
     public void aggiorna(double nVisNew, double nLikeNew) throws IllegalArgumentException, CampaignClosedException {
         // MODIFIES: this
         // EFFECTS: incrementa nVis e nLike con i parametri dati (se la campagna è
@@ -74,8 +75,9 @@ public class AdCampaignSocial extends AdCampaign {
         if (nVisNew <= 0)
             throw new IllegalArgumentException("num visualizzazioni nuovo <= 0");
         
-        this.setnLike(this.nLike + nLikeNew);
         this.setnVis(this.nVis + nVisNew);
+        this.setnLike(this.nLike + nLikeNew);
+        
 
         assert repOk();
 
