@@ -29,7 +29,6 @@ public abstract class AdCampaign implements Comparable<AdCampaign> {
         this.aperta = false;
     }
 
-    
 
     public String getNome() {
         return nome;
@@ -37,15 +36,6 @@ public abstract class AdCampaign implements Comparable<AdCampaign> {
 
     public boolean isAperta() {
         return aperta;
-    }
-
-    public void aggiorna() throws CampaignClosedException {
-        //MODIFIES: this
-        //EFFECTS: aggiorna i dati della campagna pubblicitaria
-        //lancia CampaignClosedException se la campagna è chiusa (quindi non permette aggiornamenti)
-
-        if (!(isAperta()))
-            throw new CampaignClosedException(nome + " already closed");
     }
 
     @Override
@@ -56,9 +46,12 @@ public abstract class AdCampaign implements Comparable<AdCampaign> {
         return false;
     }
 
+    public abstract Object clone();
+
+
     @Override
     public String toString() {
-        return "AdCampaign name: " + this.nome + " performance: " + this.performance();
+        return "AdCampaign nome: " + this.nome + " performance: " + this.performance();
     }
 
 
@@ -67,13 +60,7 @@ public abstract class AdCampaign implements Comparable<AdCampaign> {
         return Double.compare(o.performance(), this.performance());
     }
 
-
-
-
-    
-
-
-
+   // CI VUOLE IL CLONE PER LA ADD????
 
     
 }

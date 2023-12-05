@@ -38,27 +38,29 @@ public class AdCampaignSocial extends AdCampaign {
         // aggiornamenti)
 
         if (this.isAperta())
-            throw CampaignClosedException(nome + " already closed");
+            throw new CampaignClosedException(nome + " campagna gia' chiusa");
         if (nVis <= 0)
-            throw new IllegalArgumentException("nVis <= 0");
+            throw new IllegalArgumentException("num visualizzazioni <= 0");
 
         this.nVis = nVis;
+
         assert repOk();
     }
 
-    public void setnLike(double nLike) {
+    public void setnLike(double nLike) throws CampaignClosedException {
         // lancia IllegalArgumentExcpetion se nLike <= 0 o nLike > nVis
         // lancia CampaignClosedException se la campagna è chiusa (quindi non permette
         // aggiornamenti)
 
         if (this.isAperta())
-            throw CampaignClosedException(nome + " already closed");
+            throw new CampaignClosedException(nome + " campagna gia' chiusa");
         if (nLike <= 0)
-            throw new IllegalArgumentException("nLike <= 0");
+            throw new IllegalArgumentException("num like <= 0");
         if (nLike > nVis)
-            throw new IllegalArgumentException("nLike > nVis");
+            throw new IllegalArgumentException("num like > num visualizzazioni");
 
         this.nLike = nLike;
+
         assert repOk();
     }
 
@@ -68,9 +70,14 @@ public class AdCampaignSocial extends AdCampaign {
         // aperta!)
 
         if (nLikeNew <= 0)
-            throw new IllegalArgumentException("nLikeNew <= 0");
+            throw new IllegalArgumentException("num like nuovo <= 0");
         if (nVisNew <= 0)
-            throw new IllegalArgumentException("nVisNew <= 0");
+            throw new IllegalArgumentException("num visualizzazioni nuovo <= 0");
+        
+        this.setnLike(this.nLike + nLikeNew);
+        this.setnVis(this.nVis + nVisNew);
+
+        assert repOk();
 
     }
 
@@ -81,7 +88,24 @@ public class AdCampaignSocial extends AdCampaign {
             return false;
         if (nLike > nVis)
             return false;
+        return true;
 
+    }
+
+    @Override
+    public String toString() {
+        return super.toString().replace("AdCampaign", "Social");
+    }
+
+    @Override
+    public Object clone() {
+        AdCampaignSocial a = null;
+        try {
+            a = new AdCampaignSocial(nome);
+        } catch (IllegalArgumentException e) {
+            //impossibile
+        }
+        return a;
     }
 
 }
