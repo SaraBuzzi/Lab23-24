@@ -33,7 +33,6 @@ public class Main {
                     case "close":
                         company.getCampaign(elem[0]).chiudi();
                         break;
-
                 }
                 
 

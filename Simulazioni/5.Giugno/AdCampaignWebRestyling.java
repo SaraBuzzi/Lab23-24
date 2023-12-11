@@ -88,7 +88,7 @@ public class AdCampaignWebRestyling extends AdCampaign {
             throw new IllegalArgumentException("num nuovi visitatori <= 0");
 
         this.setnVis(nVis + nVisNew);
-        this.settVisMedio(((nVis * tVisMedio) + (nVisNew * tVisNew)) / (nVis + nVisNew));
+        this.settVisMedio(tVisMedio + ((nVis * tVisMedio) + (nVisNew * tVisNew)) / (nVis + nVisNew));
 
         assert repOk();
 

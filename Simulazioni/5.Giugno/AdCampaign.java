@@ -1,4 +1,4 @@
-public abstract class AdCampaign implements Comparable<AdCampaign> {
+public abstract class AdCampaign implements Comparable<AdCampaign>, Cloneable {
     // OVERVIEW: classe astratta che definisce una campagnia pubblciictaria,
     // identificata da un nome
 
@@ -46,7 +46,6 @@ public abstract class AdCampaign implements Comparable<AdCampaign> {
         return false;
     }
 
-    public abstract Object clone();
     
     public abstract void aggiorna(double d1, double d2) throws IllegalArgumentException, CampaignClosedException ;
 
@@ -62,7 +61,16 @@ public abstract class AdCampaign implements Comparable<AdCampaign> {
         return Double.compare(o.performance(), this.performance());
     }
 
-   // CI VUOLE IL CLONE PER LA ADD????
+    @Override
+    public Object clone() {
+        AdCampaign ac = null;
+        try {
+            ac = (AdCampaign) super.clone();
+        } catch (CloneNotSupportedException e) {
+            System.out.println(e.getMessage());
+        }
+        return ac;
+    }
 
     
 }

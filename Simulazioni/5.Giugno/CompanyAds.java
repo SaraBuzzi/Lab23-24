@@ -89,6 +89,7 @@ public class CompanyAds implements Iterable<AdCampaign> {
     @Override
     public String toString() {
         String ret ="Campagne di " + nome + ":\n";
+        ads.sort(null);
         for (AdCampaign ad : ads) {
             ret += ad + "\n";
         }
