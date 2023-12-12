@@ -1,53 +1,89 @@
+import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import javax.swing.text.html.HTMLDocument.Iterator;
+import java.util.Scanner;
 
 public class Matrice implements Iterable<Iterator<Integer>> {
-    // OVERVIEW: classe Matrice che modelli una matrice di interi di dimensione n*m,
-    // con n e m valori interi passato al costruttore della classe
+    // OVERVIEW: classe mutabile che descrive una matrice di dimensioni n * m.
+    // Fornisce un sistema di iterazione sui suoi elementi, riga per riga, elemento
+    // per elemento
 
-    //attributi
-    int[][] matrice;
+    // attributes
+    private int[][] matrix;
 
-
-    //costruttori
+    // constructors
     public Matrice(int n, int m) throws IllegalArgumentException {
-        //lancia IllegalArgumentException se n<=0 o m<=0
+        // MODIFIES: this
+        // EFFECTS: istanzia una nuova Matrice di dimensioni n * m,
+        // inizializzata con tutti gli elementi a zero
+        // lancia IllegalArgumentException se n o m sono <= 0
+        if (n <= 0 || m <= 0)
+            throw new IllegalArgumentException("Valori per righe/colonne matrice non validi");
+        matrix = new int[n][m];
 
-        if (n<=0 || m<=0) {
-            throw new IllegalArgumentException("Valori negativi o uguali a zero non validi");
+        assert repOk();
+    }
+
+    // methods
+    public void set(int r, int c, int value) throws IndexOutOfBoundsException {
+        // MODIFIES: this
+        // EFFECTS: matrice[r][c] = value
+        // lancia IndexOutOfBoundException se r e c non sono nel range della matrice
+        matrix[r][c] = value;
+
+        assert repOk();
+    }
+
+    public int get(int r, int c) throws IndexOutOfBoundsException {
+        // EFFECTS: ritorna matrice[r][c]
+        // lancia IndexOutOfBoundsException se r e c non sono nel range della matrice
+        return matrix[r][c];
+    }
+
+    public int getRows() {
+        // EFFECTS: ritorna il numero di righe della matrice
+        return matrix.length;
+    }
+
+    public int getCols() {
+        // EFFECTS: ritorna il numero di colonne della matrice
+        return matrix[0].length;
+    }
+
+    public boolean repOk() {
+        if (matrix == null)
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        String res = "";
+        for (int[] row : matrix) {
+            for (int i : row) {
+                res += i + " ";
+            }
+            res += "\n";
         }
-        this.matrice = new int[n][m];
+        return res;
     }
 
-
-    //metodi
-    public int getNumber(int n, int m) {
-        return this.matrice[n][m];
-    }
-
-
-    public void setNumber(int x, int n, int m) {
-        x = this.matrice[n][m];
-    }
-    
+    // iterators
     @Override
     public Iterator<Iterator<Integer>> iterator() {
-        //EFFECTS: restituisce un iteratore di un iteratore di interi
-
-        
-
+        // EFFECTS: restituisce un iterator che itera sulle righe della matrice,
+        // restituendo ad ogni next() un Iterator<Integer> che scorre la i-esima riga
+        // della matrice
         return new Iterator<Iterator<Integer>>() {
-            //OVERVIEW: 
-            //MODIFIES: 
 
             int currentRow = 0;
 
+            @Override
             public boolean hasNext() {
-                return currentRow < matrice.lenght;
+                return currentRow < matrix.length;
             }
 
-            public Iterator<Integer> next()  {
+            @Override
+            public Iterator<Integer> next() {
                 // EFFECTS: restituisce un iterator che itera sugli elementi dell' i-esima riga
                 // della matrice, fino a quando non terminano
 
@@ -58,8 +94,8 @@ public class Matrice implements Iterable<Iterator<Integer>> {
                 // di incrementarlo
                 int row = currentRow++;
 
-                return new Iterator<Integrer>() {
-                    
+                return new Iterator<Integer>() {
+
                     int currentEl = 0;
 
                     @Override
@@ -74,21 +110,41 @@ public class Matrice implements Iterable<Iterator<Integer>> {
 
                         return matrix[row][currentEl++];
                     }
+
                 };
             }
 
         };
     }
 
-
     public static void main(String[] args) {
-        
-        try {
-            Matrice matrice = new Matrice(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+        Matrice matrice = null;
+        Scanner s = new Scanner(System.in);
 
-        } catch (IllegalArgumentException e) {
+        try {
+            matrice = new Matrice(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+        } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
             System.out.println(e.getMessage());
+            System.exit(1);
+        }
+
+        for (int i = 0; i < matrice.getRows(); i++) {
+            System.out.println(
+                    "Inserisci i " + matrice.getCols() + " numeri (separati da spazio) della riga " + (i + 1));
+            for (int j = 0; j < matrice.getCols(); j++) {
+                matrice.set(i, j, s.nextInt());
+            }
+        }
+
+        System.out.println("Matrice inserita:");
+        // System.out.println(matrice);
+
+        for (Iterator<Integer> riga : matrice) {
+            while (riga.hasNext())
+                System.out.print(riga.next() + " ");
+            System.out.println();
         }
     }
-    
 }
+
+
